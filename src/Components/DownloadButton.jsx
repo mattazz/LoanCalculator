@@ -4,11 +4,12 @@ import * as XLSX from 'xlsx';
 
 function DownloadButton({ data, fileName, interestRate }) {
     function handleDownload() {
-        
         const monthlyInterestRate = interestRate / 12;
         const ws = XLSX.utils.aoa_to_sheet([
             ["Period", "Beginning Balance", "Payment", "Interest", "Principal", "Ending Balance"]
         ]);
+
+        let remainingBalance = data[0].beginningBalance;
 
         data.forEach((row, index) => {
             const period = index + 1;
@@ -21,10 +22,22 @@ function DownloadButton({ data, fileName, interestRate }) {
 
             ws[`A${period + 1}`] = { t: 'n', v: period };
             ws[beginningBalanceCell] = { t: 'n', v: period === 1 ? row.beginningBalance : undefined, f: period === 1 ? undefined : previousEndingBalanceCell };
-            ws[paymentCell] = { t: 'n', v: row.payment };
             ws[interestCell] = { t: 'n', f: `ROUND(${beginningBalanceCell}*${monthlyInterestRate}, 2)` };
             ws[principalCell] = { t: 'n', f: `ROUND(${paymentCell}-${interestCell}, 2)` };
-            ws[endingBalanceCell] = { t: 'n', f: `ROUND(${beginningBalanceCell}-${principalCell}, 2)` };
+
+            if (period === data.length) {
+                // Calculate the final payment to account for the remaining balance
+                const finalInterest = remainingBalance * monthlyInterestRate;
+                const finalPayment = remainingBalance + finalInterest;
+                ws[paymentCell] = { t: 'n', v: finalPayment.toFixed(2) };
+                ws[endingBalanceCell] = { t: 'n', v: 0 };
+            } else {
+                ws[endingBalanceCell] = { t: 'n', f: `ROUND(${beginningBalanceCell}-${principalCell}, 2)` };
+                ws[paymentCell] = { t: 'n', v: row.payment };
+            }
+
+            // Update remaining balance for next iteration
+            remainingBalance = period === data.length ? 0 : remainingBalance - (row.payment - (remainingBalance * monthlyInterestRate));
         });
 
         // Calculate the range of the worksheet
