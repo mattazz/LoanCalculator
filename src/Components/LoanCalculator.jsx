@@ -87,6 +87,8 @@ export default function LoanCalculator({ onSubmit }) {
                             <option value="years">Years</option>
                             <option value="months">Months</option>
                         </select>
+                        {errors.loanTerm && <p className="error">{errors.loanTerm}</p>}
+
                     </div>
                     <div>
                         <label htmlFor="interestRate">Interest Rate:</label>
