@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import * as XLSX from 'xlsx';
 
 function DownloadButton({ data, fileName, interestRate }) {
-    console.log(`DOWNLOAD BUTTON DATA INFO: ${JSON.stringify(data)}`);
-
     function handleDownload() {
+        console.log(`DOWNLOAD BUTTON DATA INFO: ${JSON.stringify(data)}`);
+        
         const monthlyInterestRate = interestRate / 12;
         const ws = XLSX.utils.aoa_to_sheet([
             ["Period", "Beginning Balance", "Payment", "Interest", "Principal", "Ending Balance"]
