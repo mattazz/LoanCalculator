@@ -113,7 +113,7 @@ export default function LoanCalculator({ onSubmit }) {
       </form>
       {submittedState && (
         <>
-          <DownloadButton data={amortizationSchedule} fileName="LoanDetails.xlsx" />
+          <DownloadButton data={amortizationSchedule} fileName="LoanDetails.xlsx" interestRate={parseFloat(formState.interestRate) / 100} />
           <LoanDetails {...submittedState} onScheduleGenerated={handleScheduleGenerated} />
         </>
       )}
