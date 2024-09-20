@@ -50,7 +50,9 @@ function DownloadButton({ data, fileName, interestRate }) {
     }
 
     return (
+        <div id="download-button-container">
         <button onClick={handleDownload}>Download as Excel</button>
+        </div>
     );
 }
 

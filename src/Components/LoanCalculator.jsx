@@ -35,7 +35,8 @@ export default function LoanCalculator({ onSubmit }) {
 
 
   return (
-    <div>
+    <>
+    <div id='form-container'>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="loanAmount">Loan Amount:</label>
@@ -47,7 +48,7 @@ export default function LoanCalculator({ onSubmit }) {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div id='loan-term-value'>
           <label htmlFor="loanTerm">Loan Term:</label>
           <input
             type="text"
@@ -57,7 +58,7 @@ export default function LoanCalculator({ onSubmit }) {
             onChange={handleChange}
           />
         </div>
-        <div>
+        <div id='loan-term-radio'>
           <label htmlFor="loanTermUnit">Loan Term Unit:</label>
           <select
             id="loanTermUnit"
@@ -110,12 +111,17 @@ export default function LoanCalculator({ onSubmit }) {
         </div>
         <button type="submit">Submit</button>
       </form>
+      </div>
       {submittedState && (
-        <>
-          <DownloadButton data={amortizationSchedule} fileName="LoanDetails.xlsx" interestRate={parseFloat(formState.interestRate) / 100} />
-          <LoanDetails {...submittedState} onScheduleGenerated={handleScheduleGenerated} />
-        </>
-      )}
-    </div>
-  );
-}
+                <>
+                    <DownloadButton
+                        data={amortizationSchedule}
+                        fileName="LoanDetails.xlsx"
+                        interestRate={parseFloat(formState.interestRate) / 100}
+                    />
+                    <LoanDetails {...submittedState} onScheduleGenerated={handleScheduleGenerated} />
+                </>
+                
+            )}
+  </>
+)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function LoanTable({ loanAmount, loanTerm, loanTermUnit, interestRate, payback, compound, onScheduleGenerated }) {
