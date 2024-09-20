@@ -1,12 +1,12 @@
 {
   "name": "loan-calculator",
   "private": true,
-  "homepage": "https://<your-username>.github.io/<your-repo-name>",
+  "homepage": "https://github.com/mattazz/LoanCalculator",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",  
+    "deploy": "gh-pages -d dist",  
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",

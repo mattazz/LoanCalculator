@@ -74,6 +74,3 @@ Here is an example of the first few rows of the amortization schedule:
 | 4      | 98160.22           | 1110.21 | 490.80   | 619.40    | 97540.81       |
 | 5      | 97540.81           | 1110.21 | 487.70   | 622.50    | 96918.31       |
 
-## License
-
-This project is licensed under the MIT License.
