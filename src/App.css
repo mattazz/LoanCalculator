@@ -177,3 +177,20 @@ button:hover {
     color: #777777;
 }
 
+/* Responsive styles */
+@media (max-width: 768px) {
+    #loan-details {
+        width: 90%;
+    }
+
+    #loan-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #loan-table table {
+        width: 100%;
+        min-width: 600px; /* Adjust as needed */
+    }
+}
+
