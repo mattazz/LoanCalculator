@@ -1,54 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-export default function LoanTable({ loanAmount, loanTerm, loanTermUnit, interestRate, payback, compound }) {
-    // Convert props to numbers
-    const loanAmountNum = Number(loanAmount);
-    const loanTermNum = Number(loanTerm);
-    const interestRateNum = Number(interestRate);
-
-    console.log(`LoanTable: Props received ${JSON.stringify({ loanAmountNum, loanTermNum, loanTermUnit, interestRateNum, payback, compound })}`);
-
-    // Determine the number of periods based on the payback frequency
-    let periods;
-    switch (payback) {
-        case 'every day':
-            periods = loanTermUnit === 'years' ? loanTermNum * 365 : loanTermNum * 30;
-            break;
-        case 'week':
-            periods = loanTermUnit === 'years' ? loanTermNum * 52 : loanTermNum * 4;
-            break;
-        case '2 weeks':
-            periods = loanTermUnit === 'years' ? loanTermNum * 26 : loanTermNum * 2;
-            break;
-        case 'half-month':
-            periods = loanTermUnit === 'years' ? loanTermNum * 24 : loanTermNum * 2;
-            break;
-        case 'month':
-        default:
-            periods = loanTermUnit === 'years' ? loanTermNum * 12 : loanTermNum;
-            break;
-    }
-
-    // Determine the interest rate per period based on the compounding frequency
-    let compoundingPeriods;
-    switch (compound) {
-        case 'annually':
-            compoundingPeriods = 1;
-            break;
-        case 'semi-annually':
-            compoundingPeriods = 2;
-            break;
-        case 'quarterly':
-            compoundingPeriods = 4;
-            break;
-        case 'monthly':
-        default:
-            compoundingPeriods = 12;
-            break;
-    }
-
-    const periodInterestRate = Math.pow(1 + (interestRateNum / 100) / compoundingPeriods, compoundingPeriods / periods) - 1;
+function LoanTable({ loanAmount, loanTerm, loanTermUnit, interestRate, payback, compound, onScheduleGenerated }) {
+    const loanAmountNum = parseFloat(loanAmount);
+    const interestRateNum = parseFloat(interestRate) / 100;
+    const periods = loanTermUnit === 'years' ? loanTerm * 12 : loanTerm;
+    const periodInterestRate = interestRateNum / 12;
 
     console.log(`Periods: ${periods}, Period Interest Rate: ${periodInterestRate}`);
 
@@ -72,6 +29,12 @@ export default function LoanTable({ loanAmount, loanTerm, loanTermUnit, interest
         });
         beginningBalance = endingBalance;
     }
+
+    useEffect(() => {
+        if (onScheduleGenerated) {
+            onScheduleGenerated(amortizationSchedule);
+        }
+    }, [amortizationSchedule, onScheduleGenerated]);
 
     return (
         <table>
@@ -108,4 +71,7 @@ LoanTable.propTypes = {
     interestRate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     payback: PropTypes.string.isRequired,
     compound: PropTypes.string.isRequired,
+    onScheduleGenerated: PropTypes.func.isRequired,
 };
+
+export default LoanTable;
