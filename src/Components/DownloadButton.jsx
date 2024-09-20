@@ -4,7 +4,6 @@ import * as XLSX from 'xlsx';
 
 function DownloadButton({ data, fileName, interestRate }) {
     function handleDownload() {
-        console.log(`DOWNLOAD BUTTON DATA INFO: ${JSON.stringify(data)}`);
         
         const monthlyInterestRate = interestRate / 12;
         const ws = XLSX.utils.aoa_to_sheet([

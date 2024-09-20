@@ -33,7 +33,6 @@ export default function LoanCalculator({ onSubmit }) {
     setAmortizationSchedule(schedule);
   };
 
-  console.log('Rendering LoanCalculator with state:', { formState, submittedState });
 
   return (
     <div>
