@@ -57,14 +57,6 @@ This component allows the user to download the amortization schedule as an Excel
 - `fileName`: String representing the name of the Excel file.
 - `interestRate`: Number representing the interest rate.
 
-## Usage
-
-1. Clone the repository.
-2. Install the dependencies using `npm install`.
-3. Run the application using `npm start`.
-4. Enter the loan details in the form.
-5. View the amortization schedule in the web table.
-6. Click the "Download as Excel" button to download the schedule as an Excel file.
 
 ## Example
 
