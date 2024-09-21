@@ -25,34 +25,32 @@ function LoanTable({ loanAmount, loanTerm, loanTermUnit, interestRate, payback, 
             let numberOfPeriods;
             let periodInterestRate;
 
-            // Determine the number of periods and period interest rate based on payback frequency
+            // Determine the number of periods based on payback frequency
             switch (payback) {
                 case 'every day':
                     numberOfPeriods = loanTermUnit === 'years' ? loanTerm * 365 : loanTerm * 30;
-                    periodInterestRate = interestRate / 100 / 365;
                     break;
                 case 'week':
                     numberOfPeriods = loanTermUnit === 'years' ? loanTerm * 52 : loanTerm * 4.33;
-                    periodInterestRate = interestRate / 100 / 52;
                     break;
                 case '2 weeks':
                     numberOfPeriods = loanTermUnit === 'years' ? loanTerm * 26 : loanTerm * 2.17;
-                    periodInterestRate = interestRate / 100 / 26;
                     break;
                 case 'half-month':
                     numberOfPeriods = loanTermUnit === 'years' ? loanTerm * 24 : loanTerm * 2;
-                    periodInterestRate = interestRate / 100 / 24;
                     break;
                 case 'month':
                     numberOfPeriods = loanTermUnit === 'years' ? loanTerm * 12 : loanTerm;
-                    periodInterestRate = interestRate / 100 / 12;
                     break;
                 default:
                     throw new Error('Invalid payback frequency');
             }
 
-            // Adjust the period interest rate based on the compounding frequency
-            periodInterestRate = calculatePeriodicInterestRate(periodInterestRate, compound);
+            // Adjust the annual interest rate based on the compounding frequency
+            const adjustedAnnualRate = calculatePeriodicInterestRate(interestRate / 100, compound);
+
+            // Calculate the effective interest rate per period
+            periodInterestRate = Math.pow(1 + adjustedAnnualRate, 1 / (numberOfPeriods / loanTerm)) - 1;
 
             const paymentPerPeriod = (loanAmount * periodInterestRate) / (1 - Math.pow(1 + periodInterestRate, -numberOfPeriods));
 
