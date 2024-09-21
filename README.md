@@ -2,6 +2,10 @@
 
 This project is a Loan Calculator application built with React. It allows users to input loan details and generate an amortization schedule. The schedule can be viewed in a web table and downloaded as an Excel file.
 
+---
+*Note that computations may not be correct for the Loan Table, and is only to be used as a proof of concept for the web app.*
+
+---
 ## Features
 
 - Input loan details including loan amount, term, interest rate, and payment frequency.
